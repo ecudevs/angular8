@@ -1,0 +1,24 @@
+<div class="card">
+  <div class="card-body">
+    <h5 class="title">
+      {{ tarea.titulo }}
+    </h5>
+    <p>{{ tarea.descripcion }}</p>
+    <p>{{ tarea.feCreacion | date: "dd/MM/yyyy" }}</p>
+    <p>{{ tarea.asignado.nombre }}</p>
+    <p>{{ tarea.estado | estado: ["a", "a"] }}</p>
+    <button
+      *ngIf="tarea.estado == 'TO_DO'"
+      class="btn btn-block btn-danger"
+      (click)="cambiarAProgress()"
+    >
+      En progreso
+    </button>
+    <button
+      *ngIf="tarea.estado == 'IN_PROGRESS'"
+      class="btn btn-block btn-danger"
+    >
+      Finalizado
+    </button>
+  </div>
+</div>

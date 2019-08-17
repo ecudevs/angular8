@@ -1,0 +1,42 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-4">
+      <h1>To Do</h1>
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div
+              class="col-12 mb-4"
+              *ngFor="let tarea of tareas"
+              [hidden]="tarea.estado == 'IN_PROGRESS'"
+            >
+              <app-tarea-card
+                *ngIf="tarea.estado == 'TO_DO'"
+                [tarea]="tarea"
+                (setInProgress)="changeToProgress($event)"
+              ></app-tarea-card>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-4">
+      <h1>In progress</h1>
+      <div class="col-12 mb-4" *ngFor="let tarea of tareas">
+        <app-tarea-card
+          *ngIf="tarea.estado == 'IN_PROGRESS'"
+          [tarea]="tarea"
+        ></app-tarea-card>
+      </div>
+    </div>
+    <div class="col-4">
+      <h1>Finished</h1>
+      <div class="col-12 mb-4" *ngFor="let tarea of tareas">
+        <app-tarea-card
+          *ngIf="tarea.estado == 'FINISHED'"
+          [tarea]="tarea"
+        ></app-tarea-card>
+      </div>
+    </div>
+  </div>
+</div>
