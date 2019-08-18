@@ -1,7 +1,23 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-4">
-      <h1>To Do</h1>
+      <h1>
+        To Do
+        <button
+          *ngIf="!showForm"
+          type="button"
+          class="btn btn-link"
+          (click)="showForm = true"
+        >
+          Agregar
+        </button>
+      </h1>
+      <app-tarea-form
+        *ngIf="showForm"
+        [tarea]="tarea"
+        (guardarTarea)="guardarTarea($event)"
+        (cancelar)="showForm = false"
+      ></app-tarea-form>
       <div class="card">
         <div class="card-body">
           <div class="row">
@@ -14,6 +30,8 @@
                 *ngIf="tarea.estado == 'TO_DO'"
                 [tarea]="tarea"
                 (setInProgress)="changeToProgress($event)"
+                (modificarTarea)="asignarTarea($event)"
+                (eliminarTarea)="eliminarTarea($event)"
               ></app-tarea-card>
             </div>
           </div>
@@ -26,6 +44,7 @@
         <app-tarea-card
           *ngIf="tarea.estado == 'IN_PROGRESS'"
           [tarea]="tarea"
+          (setInFinshed)="changeToFinished($event)"
         ></app-tarea-card>
       </div>
     </div>

@@ -1,7 +1,7 @@
 <div class="card">
   <div class="card-body">
     <h5 class="title">
-      {{ tarea.titulo }}
+      <a [routerLink]="['tarea', tarea._id]">{{ tarea.titulo }}</a>
     </h5>
     <p>{{ tarea.descripcion }}</p>
     <p>{{ tarea.feCreacion | date: "dd/MM/yyyy" }}</p>
@@ -17,8 +17,17 @@
     <button
       *ngIf="tarea.estado == 'IN_PROGRESS'"
       class="btn btn-block btn-danger"
+      (click)="cambiarAFinalizado()"
     >
       Finalizado
+    </button>
+  </div>
+  <div *ngIf="tarea.estado == 'TO_DO'" class="card-footer text-muted">
+    <button (click)="modificar()" type="button" class="btn btn-danger mr-2">
+      <i class="fas fa-pencil-alt"></i>
+    </button>
+    <button (click)="eliminar()" type="button" class="btn btn-danger mr-2">
+      <i class="fas fa-trash"></i>
     </button>
   </div>
 </div>

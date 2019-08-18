@@ -1,0 +1,46 @@
+<div class="card mb-2">
+  <div class="card-body">
+    <form
+      #f="ngForm"
+      name="tareaForm"
+      (ngSubmit)="f.form.valid && guardar(f)"
+      novalidate
+    >
+      <div class="form-group">
+        <label for="titulo">Titulo</label>
+        <input
+          type="text"
+          class="form-control"
+          id="titulo"
+          name="titulo"
+          placeholder="Ingrese el titulo"
+          [(ngModel)]="tarea.titulo"
+          #titulo="ngModel"
+          required
+        />
+        <p *ngIf="f.submitted && !titulo.valid" class="text-danger">
+          El titulo de la tarea es requerido
+        </p>
+      </div>
+      <div class="form-group">
+        <label for="descripcion">Descripcion</label>
+        <textarea
+          class="form-control"
+          id="descripcion"
+          name="descripcion"
+          placeholder="Ingrese la descripcion de la tarea"
+          [(ngModel)]="tarea.descripcion"
+          #descripcion="ngModel"
+          required
+        ></textarea>
+        <p *ngIf="f.submitted && !descripcion.valid" class="text-danger">
+          La descripcion de la tarea es requerida
+        </p>
+      </div>
+      <button type="button" class="btn btn-link" (click)="cancel()">
+        Cancelar
+      </button>
+      <button type="submit" class="btn btn-primary">Guardar</button>
+    </form>
+  </div>
+</div>
