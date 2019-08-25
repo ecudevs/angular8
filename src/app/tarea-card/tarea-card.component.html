@@ -5,7 +5,7 @@
     </h5>
     <p>{{ tarea.descripcion }}</p>
     <p>{{ tarea.feCreacion | date: "dd/MM/yyyy" }}</p>
-    <p>{{ tarea.asignado.nombre }}</p>
+    <p *ngIf="tarea.asignado">{{ tarea.asignado.nombre }}</p>
     <p>{{ tarea.estado | estado: ["a", "a"] }}</p>
     <button
       *ngIf="tarea.estado == 'TO_DO'"

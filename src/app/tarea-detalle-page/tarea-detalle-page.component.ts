@@ -17,12 +17,14 @@ export class TareaDetallePageComponent implements OnInit {
     private tareaService: TareaService
   ) {
     this._id = this.route.snapshot.params._id;
-    debugger;
+    // LLAMAR A SERVICETAREA metodo getByid(_id).
   }
 
   ngOnInit() {
-    let tareas = this.tareaService.getTareas();
-
-    this.tarea = tareas.find(tareaABuscar => tareaABuscar._id == this._id);
+    // let tareas = this.tareaService.getTareas();
+    // this.tarea = tareas.find(tareaABuscar => tareaABuscar._id == this._id);
+    this.tareaService
+      .getTareaById(this._id)
+      .subscribe((data: any) => (this.tarea = data.tarea));
   }
 }

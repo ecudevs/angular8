@@ -1,3 +1,4 @@
+<app-header (filtrar)="filtrarFunction($event)"></app-header>
 <div class="container-fluid">
   <div class="row">
     <div class="col-4">
@@ -23,7 +24,7 @@
           <div class="row">
             <div
               class="col-12 mb-4"
-              *ngFor="let tarea of tareas"
+              *ngFor="let tarea of tareasFiltro"
               [hidden]="tarea.estado == 'IN_PROGRESS'"
             >
               <app-tarea-card
@@ -40,7 +41,7 @@
     </div>
     <div class="col-4">
       <h1>In progress</h1>
-      <div class="col-12 mb-4" *ngFor="let tarea of tareas">
+      <div class="col-12 mb-4" *ngFor="let tarea of tareasFiltro">
         <app-tarea-card
           *ngIf="tarea.estado == 'IN_PROGRESS'"
           [tarea]="tarea"
@@ -50,7 +51,7 @@
     </div>
     <div class="col-4">
       <h1>Finished</h1>
-      <div class="col-12 mb-4" *ngFor="let tarea of tareas">
+      <div class="col-12 mb-4" *ngFor="let tarea of tareasFiltro">
         <app-tarea-card
           *ngIf="tarea.estado == 'FINISHED'"
           [tarea]="tarea"

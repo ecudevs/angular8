@@ -9,46 +9,56 @@ import { TareaService } from "../services/tarea.service";
 export class KanbanPageComponent implements OnInit {
   tarea = {};
   tareas = [];
+  tareasFiltro = [];
 
   showForm = false;
 
   constructor(private tareaService: TareaService) {}
 
   ngOnInit() {
-    this.tareas = this.tareaService.getTareas();
+    // this.tareas = this.tareaService.getTareas();
+    this.tareaService.getTareas().subscribe((data: any) => {
+      this.tareas = data.tareas;
+      this.tareasFiltro = data.tareas;
+    });
   }
 
   changeToProgress(tarea) {
-    let index = this.tareas.findIndex(
-      tareaABuscar => tareaABuscar.titulo === tarea.titulo
-    );
+    // let tarea = this.tareas.find(tareaABuscar => tareaABuscar._id == _id);
+    tarea.estado = "IN_PROGRESS";
 
-    if (index !== -1) {
-      this.tareas[index].estado = "IN_PROGRESS";
-    }
+    this.tareaService.update(tarea).subscribe((data: any) => {
+      console.log("changeToProgress");
+      this.tareas = data.tareas;
+      this.tareasFiltro = data.tareas;
+    });
   }
 
-  changeToFinished(tarea) {
-    let index = this.tareas.findIndex(
-      tareaABuscar => tareaABuscar.titulo === tarea.titulo
-    );
+  changeToFinished({ _id }) {
+    let tarea = this.tareas.find(tareaABuscar => tareaABuscar._id == _id);
+    tarea.estado = "FINISHED";
 
-    if (index !== -1) {
-      this.tareas[index].estado = "FINISHED";
-    }
+    this.tareaService.update(tarea).subscribe((data: any) => {
+      console.log("changeToProgress");
+      this.tareas = data.tareas;
+      this.tareasFiltro = data.tareas;
+    });
   }
 
   guardarTarea(tarea) {
     if (!tarea._id) {
-      this.tareas.push({ ...tarea, _id: this.tareas.length + 1 });
+      // INSERTAR
+      this.tareaService.insert(tarea).subscribe((data: any) => {
+        console.log("Informacion insertada");
+        this.tareas = data.tareas;
+        this.tareasFiltro = data.tareas;
+      });
     } else {
-      let index = this.tareas.findIndex(
-        tareaABuscar => tareaABuscar._id === tarea._id
-      );
-
-      if (index !== -1) {
-        this.tareas[index] = { ...tarea };
-      }
+      this.tareaService.update(tarea).subscribe((data: any) => {
+        console.log("Informacion modifcada");
+        this.tareas = data.tareas;
+        this.tareasFiltro = data.tareas;
+      });
     }
   }
 
@@ -58,10 +68,22 @@ export class KanbanPageComponent implements OnInit {
   }
 
   eliminarTarea(_id) {
-    let index = this.tareas.findIndex(tareaABuscar => tareaABuscar._id === _id);
+    this.tareaService.delete(_id).subscribe((data: any) => {
+      console.log("Informacion eliminada");
+      this.tareas = data.tareas;
+      this.tareasFiltro = data.tareas;
+    });
+  }
 
-    if (index !== -1) {
-      this.tareas.splice(index, 1);
-    }
+  filtrarFunction(query) {
+    this.tareasFiltro = this.tareas.filter(tareaABuscar => {
+      if (
+        tareaABuscar.titulo.toUpperCase().indexOf(query.toUpperCase()) !== -1
+      ) {
+        return true;
+      }
+
+      return false;
+    });
   }
 }
